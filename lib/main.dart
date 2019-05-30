@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
-import 'package:http/http.dart'; // Contains a client for making API calls
-import 'package:html/parser.dart'; // Contains HTML parsers to generate a Document object
-import 'package:html/dom.dart' as dom; // Contains DOM related classes for extracting data from elements
+import 'package:http/http.dart';
+import 'package:html/parser.dart';
+import 'package:html/dom.dart' as dom; 
 
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
-  String BASE_URL = "https://www.reddit.com";
-  String COMMENTS_BASE_URL = "https://eksisozluk.com";
-
-  String currentTopic = "";
   List<Topic> topics = [];
-  List<Post> posts = [];
-  bool loading = true;
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -52,7 +44,6 @@ class HomePageState extends State<HomePage>{
     var client = Client();
     Response response = await client.get(url);
 
-    // Use html parser and query selector
     var document = parse(response.body);
     var topicset = document.querySelectorAll('ul.topic-list > li > a');
     
@@ -103,7 +94,6 @@ class HomePageState extends State<HomePage>{
 
   Future<Null> refreshList() async {
     refreshKey.currentState?.show(atTop: false);
-    await Future.delayed(Duration(seconds: 2));
 
     setState((){
       listTopics = [];
@@ -116,7 +106,6 @@ class HomePageState extends State<HomePage>{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("Ekşi with Flutter"),
@@ -138,8 +127,8 @@ class HomePageState extends State<HomePage>{
                   ],
                 )));
               }),
-              onRefresh: refreshList,
-              ));
+          onRefresh: refreshList,
+          ));
   }
 }
 
