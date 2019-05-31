@@ -110,10 +110,11 @@ class HomePageState extends State<HomePage>{
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("Ekşi with Flutter"),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.refresh), onPressed: refreshList)
+          ],
         ),
-        body: RefreshIndicator(
-        key: refreshKey,        
-        child: new ListView.builder(
+        body: new ListView.builder(
             itemCount: listTopics == null ? 0 : listTopics.length,
             itemBuilder: (BuildContext context, int index) {
               return new Container(
@@ -127,9 +128,8 @@ class HomePageState extends State<HomePage>{
                     )
                   ],
                 )));
-              }),
-          onRefresh: refreshList,
-          ));
+              })
+          );
   }
 }
 
