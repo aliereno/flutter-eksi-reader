@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:http/http.dart';
 import 'package:html/parser.dart';
-import 'package:html/dom.dart' as dom; 
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html_view/flutter_html_view.dart';
 import 'package:url_launcher/url_launcher.dart'; 
 
 
@@ -57,10 +55,9 @@ class HomePageState extends State<HomePage>{
         List<String> tempA = topic.text.replaceAll("\n", "").split(' ');
         String lastElement = tempA.removeLast();
         String tempTitle = tempA.join(' ');
-        int tempComments = int.parse(lastElement);
         Topic topicObject = new Topic();
         topicObject.title = tempTitle;
-        topicObject.comments = tempComments;
+        topicObject.comments = lastElement;
         topicObject.url = topic.attributes['href'];
         localListTopics.add(topicObject);
       }
@@ -98,7 +95,7 @@ class HomePageState extends State<HomePage>{
                   children: <Widget>[
                     new ListTile(
                       title: new Text(listTopics[index].title),
-                      trailing: new Text(listTopics[index].comments.toString()),
+                      trailing: new Text(listTopics[index].comments),
                       onTap: () {
                         Navigator.push(context, 
                           new MaterialPageRoute(builder: (context) => TopicDetail(listTopics[index]))
@@ -252,7 +249,7 @@ class Post {
 class Topic {
     String title;
     String url;
-    int comments;
+    String comments;
     bool self;
 }
 _launchURL(var u) async {
